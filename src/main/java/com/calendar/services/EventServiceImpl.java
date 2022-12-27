@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.calendar.entities.Event;
 import com.calendar.entities.User;
+import com.calendar.exceptions.EventNotFoundException;
 import com.calendar.exceptions.UserNotFoundException;
 import com.calendar.payloads.EventDTO;
 import com.calendar.repositories.EventRepo;
@@ -19,7 +20,7 @@ public class EventServiceImpl implements EventService {
 
 	@Autowired
 	private UserRepo userRepo;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -27,35 +28,57 @@ public class EventServiceImpl implements EventService {
 	public EventDTO createEvent(EventDTO eventDTO, String email) throws UserNotFoundException {
 		User user = userRepo.findById(email)
 				.orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
-		
+
 		Event event = modelMapper.map(eventDTO, Event.class);
-		
+
 		event.setUser(user);
-		
+
 		int startDay = event.getStartDate().getDayOfMonth();
 		int endDay = event.getEndDate().getDayOfMonth();
-		
-		if(startDay - endDay == 0) {
+
+		if (startDay - endDay == 0) {
+			event.setEventType("Non-recurring");
+		} else {
+			event.setEventType("Recurring");
+		}
+
+		Event createdEvent = eventRepo.save(event);
+
+		return modelMapper.map(createdEvent, EventDTO.class);
+	}
+
+	@Override
+	public EventDTO updateEvent(Long eventId, EventDTO eventDTO) throws EventNotFoundException {
+		Event event = eventRepo.findById(eventId)
+				.orElseThrow(() -> new EventNotFoundException("Event not found with event id: " + eventId));
+
+		event.setStartDate(eventDTO.getStartDate());
+		event.setEndDate(eventDTO.getEndDate());
+		event.setStartTime(eventDTO.getStartTime());
+		event.setEndTime(eventDTO.getEndTime());
+
+		int startDay = event.getStartDate().getDayOfMonth();
+		int endDay = event.getEndDate().getDayOfMonth();
+
+		if (startDay - endDay == 0) {
 			event.setEventType("Non-recurring");
 		} else {
 			event.setEventType("Recurring");
 		}
 		
-		Event createdEvent = eventRepo.save(event);
+		event = eventRepo.save(event);
+
+		return modelMapper.map(event, EventDTO.class);
+	}
+
+	@Override
+	public EventDTO deleteEvent(Long eventId) throws EventNotFoundException {
+		Event event = eventRepo.findById(eventId)
+				.orElseThrow(() -> new EventNotFoundException("Event not found with event id: " + eventId));
 		
-		return modelMapper.map(createdEvent, EventDTO.class);
-	}
-
-	@Override
-	public EventDTO updateEvent(Long eventId, EventDTO eventDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public EventDTO deleteEvent(Long eventId) {
-		// TODO Auto-generated method stub
-		return null;
+		eventRepo.delete(event);
+		
+		return modelMapper.map(event, EventDTO.class);
 	}
 
 }

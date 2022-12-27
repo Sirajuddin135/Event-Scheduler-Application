@@ -16,7 +16,7 @@ import com.calendar.payloads.UserDTO;
 import com.calendar.services.UserService;
 
 @RestController
-@RequestMapping("/masaicalender")
+@RequestMapping("/calender")
 public class UserController {
 	
 	@Autowired

@@ -1,8 +1,8 @@
 package com.calendar.entities;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -11,6 +11,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class User {
 
 	@Id
@@ -29,5 +31,5 @@ public class User {
 	private LocalDate dateOfBirth;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private Set<Event> events = new HashSet<>();
+	private List<Event> events = new ArrayList<>();
 }
