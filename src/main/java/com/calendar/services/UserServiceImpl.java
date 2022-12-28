@@ -1,11 +1,14 @@
 package com.calendar.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.calendar.entities.Event;
 import com.calendar.entities.User;
 import com.calendar.exceptions.UserNotFoundException;
 import com.calendar.payloads.UserDTO;
@@ -36,27 +39,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO loginUser(String email, String mobileNumber) throws UserNotFoundException {
-		User user = userRepo.findById(email)
-				.orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
-
-		if (!user.getMobileNumber().equals(mobileNumber)) {
-			throw new UserNotFoundException("User mobile number doesn't match with: " + mobileNumber);
-		}
-
-		return modelMapper.map(user, UserDTO.class);
-	}
-
-	@Override
 	public UserDTO updateUser(User user) throws UserNotFoundException {
-		userRepo.findById(user.getEmail())
-				.orElseThrow(() -> new UserNotFoundException("User not found with email: " + user.getEmail()));
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if(!email.equals(user.getEmail())) {
+			throw new UserNotFoundException("You have not registered with email " + user.getEmail() + " to update details !!");
+		}
 
 		User updatedUser = userRepo.save(user);
 
 		UserDTO userDTO = modelMapper.map(updatedUser, UserDTO.class);
 
 		return userDTO;
+	}
+
+	@Override
+	public List<Event> getEventsByType(String email, String eventType) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

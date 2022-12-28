@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.calendar.exceptions.EventNotFoundException;
-import com.calendar.exceptions.UserNotFoundException;
 import com.calendar.payloads.EventDTO;
 import com.calendar.services.EventService;
 
@@ -25,8 +23,8 @@ public class EventController {
 	private EventService eventService;
 	
 	@PostMapping("")
-	public ResponseEntity<EventDTO> postEvent(@RequestBody EventDTO eventDTO, @RequestParam String email) throws UserNotFoundException {
-		EventDTO createdEvent = eventService.createEvent(eventDTO, email);
+	public ResponseEntity<EventDTO> postEvent(@RequestBody EventDTO eventDTO) {
+		EventDTO createdEvent = eventService.createEvent(eventDTO);
 		
 		return new ResponseEntity<EventDTO>(createdEvent, HttpStatus.CREATED);
 	}
@@ -39,9 +37,9 @@ public class EventController {
 	}
 	
 	@DeleteMapping("/{eventId}")
-	public ResponseEntity<EventDTO> deleteEvent(@PathVariable Long eventId) throws EventNotFoundException {
-		EventDTO deletedEvent = eventService.deleteEvent(eventId);
+	public ResponseEntity<String> deleteEvent(@PathVariable Long eventId) throws EventNotFoundException {
+		String response = eventService.deleteEvent(eventId);
 		
-		return new ResponseEntity<EventDTO>(deletedEvent, HttpStatus.CREATED);
+		return new ResponseEntity<String>(response, HttpStatus.CREATED);
 	}
 }

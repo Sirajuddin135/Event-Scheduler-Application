@@ -1,18 +1,24 @@
 package com.calendar.controllers;
 
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.calendar.entities.Event;
 import com.calendar.entities.User;
 import com.calendar.exceptions.UserNotFoundException;
 import com.calendar.payloads.UserDTO;
+import com.calendar.repositories.UserRepo;
 import com.calendar.services.UserService;
 
 @RestController
@@ -22,24 +28,34 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/register")
-	public ResponseEntity<UserDTO> registerUser(@RequestBody User user) throws UserNotFoundException {
-		UserDTO registeredUserDTO = userService.registerUser(user);
-		
-		return new ResponseEntity<UserDTO>(registeredUserDTO, HttpStatus.CREATED);
-	}
+	@Autowired
+	private UserRepo userRepo;
 	
-	@PostMapping("/login")
-	public ResponseEntity<UserDTO> loginUser(@RequestParam String email, @RequestParam String mobileNumber) throws UserNotFoundException {
-		UserDTO loggedInsUserDTO = userService.loginUser(email, mobileNumber);
-		
-		return new ResponseEntity<UserDTO>(loggedInsUserDTO, HttpStatus.CREATED);
-	}
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@PutMapping("/user")
 	public ResponseEntity<UserDTO> updateUser(@RequestBody User user) throws UserNotFoundException {
 		UserDTO updatedUserDTO = userService.updateUser(user);
 		
 		return new ResponseEntity<UserDTO>(updatedUserDTO, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/user/info")
+	public ResponseEntity<UserDTO> getUserDetails() {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		User user = userRepo.findById(email).get();
+		
+		return new ResponseEntity<UserDTO>(modelMapper.map(user, UserDTO.class), HttpStatus.OK);
+	}
+	
+	@GetMapping("/event/{type}")
+	public ResponseEntity<List<Event>> getAllEventsByType(@PathVariable String type) {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		List<Event> events = userService.getEventsByType(email, type);
+		
+		return new ResponseEntity<List<Event>>(events, HttpStatus.OK);
 	}
 }

@@ -7,5 +7,5 @@ import com.calendar.entities.User;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, String> {
-
+	
 }
