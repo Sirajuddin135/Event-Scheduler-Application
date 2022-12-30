@@ -1,7 +1,7 @@
 # Event-Scheduler-Application
 This is a Spring Boot application that provides a REST API for scheduling events. The API is secured using JSON Web Tokens (JWT). Swagger UI is also provided for easy testing and documentation of the API.
 
-Prerequisites
+## Prerequisites
 - Java 17 or above
 - Maven
 
@@ -24,6 +24,6 @@ Prerequisites
 - The API is secured using JSON Web Tokens (JWT). To access the API, you will need to obtain a JWT by authenticating with the /login endpoint. The JWT should then be passed in the Authorization header of each API request.
 
 ### Example:
-- Authorization: Bearer <your_jwt>
+- Authorization: <your_jwt>
 
 # Thank You
