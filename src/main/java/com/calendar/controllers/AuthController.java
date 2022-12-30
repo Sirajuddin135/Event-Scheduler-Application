@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.calendar.entities.User;
 import com.calendar.exceptions.UserNotFoundException;
+import com.calendar.payloads.LoginCredentials;
 import com.calendar.payloads.UserDTO;
 import com.calendar.security.JWTUtil;
-import com.calendar.security.LoginCredentials;
 import com.calendar.services.UserService;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/calender")
+@SecurityRequirement(name = "Event Scheduler")
 public class AuthController {
 	
 	@Autowired

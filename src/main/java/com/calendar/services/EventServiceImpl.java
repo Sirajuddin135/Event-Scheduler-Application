@@ -28,9 +28,6 @@ public class EventServiceImpl implements EventService {
 	public EventDTO createEvent(EventDTO eventDTO) {
 		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-//		User user = userRepo.findById(email)
-//				.orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
-		
 		User user = userRepo.findById(email).get();
 
 		Event event = modelMapper.map(eventDTO, Event.class);

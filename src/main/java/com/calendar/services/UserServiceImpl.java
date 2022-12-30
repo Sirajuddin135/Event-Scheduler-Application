@@ -2,6 +2,7 @@ package com.calendar.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.calendar.entities.Event;
 import com.calendar.entities.User;
+import com.calendar.exceptions.EventNotFoundException;
 import com.calendar.exceptions.UserNotFoundException;
+import com.calendar.payloads.EventDTO;
 import com.calendar.payloads.UserDTO;
+import com.calendar.repositories.EventRepo;
 import com.calendar.repositories.UserRepo;
 
 @Service
@@ -20,6 +24,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepo userRepo;
 
+	@Autowired
+	private EventRepo eventRepo;
+	
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -54,9 +61,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Event> getEventsByType(String email, String eventType) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EventDTO> getEventsByType(String eventType) throws EventNotFoundException {
+		String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		List<Event> events = eventRepo.findByEventType(email, eventType);
+		
+		if(events.size() == 0) {
+			throw new EventNotFoundException("No events are scheduled !!");
+		}
+		
+		List<EventDTO> eventDTOs = events.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
+		
+		return eventDTOs;
 	}
 
 }

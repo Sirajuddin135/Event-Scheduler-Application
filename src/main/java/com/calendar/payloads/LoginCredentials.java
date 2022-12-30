@@ -1,4 +1,4 @@
-package com.calendar.security;
+package com.calendar.payloads;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -15,31 +15,35 @@ import com.calendar.exceptions.EventNotFoundException;
 import com.calendar.payloads.EventDTO;
 import com.calendar.services.EventService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/calender/event")
+@SecurityRequirement(name = "Event Scheduler")
 public class EventController {
-	
+
 	@Autowired
 	private EventService eventService;
-	
+
 	@PostMapping("")
 	public ResponseEntity<EventDTO> postEvent(@RequestBody EventDTO eventDTO) {
 		EventDTO createdEvent = eventService.createEvent(eventDTO);
-		
+
 		return new ResponseEntity<EventDTO>(createdEvent, HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/{eventId}")
-	public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody EventDTO eventDTO) throws EventNotFoundException {
+	public ResponseEntity<EventDTO> updateEvent(@PathVariable Long eventId, @RequestBody EventDTO eventDTO)
+			throws EventNotFoundException {
 		EventDTO updatedEvent = eventService.updateEvent(eventId, eventDTO);
-		
+
 		return new ResponseEntity<EventDTO>(updatedEvent, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{eventId}")
 	public ResponseEntity<String> deleteEvent(@PathVariable Long eventId) throws EventNotFoundException {
 		String response = eventService.deleteEvent(eventId);
-		
+
 		return new ResponseEntity<String>(response, HttpStatus.CREATED);
 	}
 }

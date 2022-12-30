@@ -11,6 +11,8 @@ import com.calendar.entities.Event;
 @Repository
 public interface EventRepo extends JpaRepository<Event, Long> {
 	
-//	@Query("SELECT * FROM Event WHERE user_email =: 1 AND eventType =: 2")
-//	List<Event> findByEmailAndEventType(String email, String eventType);
+	@Query(value = "SELECT e FROM Event e WHERE user.email = ?1 AND CASE WHEN ?2 = 'day' THEN startDate = CURDATE() "
+			+ "WHEN ?2 = 'month' THEN (MONTH(startDate) = MONTH(CURDATE()) AND YEAR(startDate) = YEAR(CURDATE())) "
+			+ "ELSE WEEK(startDate) = WEEK(CURDATE()) END")
+	List<Event> findByEventType(String email, String type);
 }
