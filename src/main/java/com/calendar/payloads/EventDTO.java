@@ -9,6 +9,7 @@ import lombok.Data;
 public class EventDTO {
 	
 	private Long eventId;
+	private String eventName;
 	private String eventType;
 	private LocalDate startDate;
 	private LocalDate endDate;

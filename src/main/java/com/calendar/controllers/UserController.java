@@ -23,6 +23,7 @@ import com.calendar.repositories.UserRepo;
 import com.calendar.services.UserService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/calender")
@@ -39,7 +40,7 @@ public class UserController {
 	private ModelMapper modelMapper;
 
 	@PutMapping("/user")
-	public ResponseEntity<UserDTO> updateUser(@RequestBody User user) throws UserNotFoundException {
+	public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody User user) throws UserNotFoundException {
 		UserDTO updatedUserDTO = userService.updateUser(user);
 
 		return new ResponseEntity<UserDTO>(updatedUserDTO, HttpStatus.CREATED);

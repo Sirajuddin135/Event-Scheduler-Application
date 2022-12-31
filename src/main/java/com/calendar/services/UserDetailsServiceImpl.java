@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		User user = userRepo.findById(email)
 				.orElseThrow(() -> new RuntimeException("Could not findUser with email = " + email));
 
-		return new org.springframework.security.core.userdetails.User(email, user.getMobileNumber(),
+		return new org.springframework.security.core.userdetails.User(email, user.getPassword(),
 				Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
 	}
 }

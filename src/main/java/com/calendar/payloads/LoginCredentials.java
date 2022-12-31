@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class LoginCredentials {
 	
 	private String email;
-	private String mobileNumber;
+	private String password;
 }

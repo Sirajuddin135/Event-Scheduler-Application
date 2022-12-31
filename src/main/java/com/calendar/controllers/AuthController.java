@@ -21,6 +21,7 @@ import com.calendar.security.JWTUtil;
 import com.calendar.services.UserService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/calender")
@@ -40,10 +41,10 @@ public class AuthController {
 	private PasswordEncoder passwordEncoder;
 	
 	@PostMapping("/register")
-	public Map<String, Object> registerHandler(@RequestBody User user) throws UserNotFoundException {
-		String encodedPass = passwordEncoder.encode(user.getMobileNumber());
+	public Map<String, Object> registerHandler(@Valid @RequestBody User user) throws UserNotFoundException {
+		String encodedPass = passwordEncoder.encode(user.getPassword());
 		
-		user.setMobileNumber(encodedPass);
+		user.setPassword(encodedPass);
 		
 		UserDTO userDTO = userService.registerUser(user);
 		
@@ -55,7 +56,7 @@ public class AuthController {
 	@PostMapping("/login")
 	public Map<String, Object> loginHandler(@RequestBody LoginCredentials credentials) {
 		try {
-			UsernamePasswordAuthenticationToken authCredentials = new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getMobileNumber());
+			UsernamePasswordAuthenticationToken authCredentials = new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());
 			
 			authenticationManager.authenticate(authCredentials);
 			

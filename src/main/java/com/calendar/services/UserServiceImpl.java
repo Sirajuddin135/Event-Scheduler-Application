@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.calendar.entities.Event;
@@ -29,6 +30,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDTO registerUser(User user) throws UserNotFoundException {
@@ -52,6 +56,10 @@ public class UserServiceImpl implements UserService {
 		if(!email.equals(user.getEmail())) {
 			throw new UserNotFoundException("You have not registered with email " + user.getEmail() + " to update details !!");
 		}
+		
+		String encodedPass = passwordEncoder.encode(user.getPassword());
+		
+		user.setPassword(encodedPass);
 
 		User updatedUser = userRepo.save(user);
 

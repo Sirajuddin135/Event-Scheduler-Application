@@ -59,6 +59,7 @@ public class EventServiceImpl implements EventService {
 			throw new EventNotFoundException("You have not scheduled any event with event id " + eventId + " to update !!");
 		}
 
+		event.setEventName(eventDTO.getEventName());
 		event.setStartDate(eventDTO.getStartDate());
 		event.setEndDate(eventDTO.getEndDate());
 		event.setStartTime(eventDTO.getStartTime());

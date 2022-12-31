@@ -11,10 +11,10 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @SpringBootApplication
 @SecurityScheme(name = "Event Scheduler", scheme = "bearer", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
-public class CalendarApplication {
+public class CalenderApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CalendarApplication.class, args);
+		SpringApplication.run(CalenderApplication.class, args);
 	}
 	
 	@Bean

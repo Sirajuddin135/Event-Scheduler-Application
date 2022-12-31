@@ -23,6 +23,7 @@ public class Event {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long eventId;
 	
+	private String eventName;
 	private String eventType;
 	private LocalDate startDate;
 	private LocalDate endDate;
