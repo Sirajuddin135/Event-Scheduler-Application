@@ -1,5 +1,15 @@
 # Event-Scheduler-Application
-This is a Spring Boot application that provides a REST API for scheduling events. The API is secured using JSON Web Tokens (JWT). Swagger UI is also provided for easy testing and documentation of the API.
+<!-- This is a Spring Boot application that provides a REST API for scheduling events. The API is secured using JSON Web Tokens (JWT). Swagger UI is also provided for easy testing and documentation of the API. -->
+
+The Event Scheduler App built using Spring Boot 3.0 that provides RESTful APIs which can be easily integrated into any application for scheduling and managing events.
+
+The APIs allow users to create, update, and delete, retrieve a list of events for a specific time like Day, Week, or Month. Users can also register, update and retrieve the details by themselves. They are secured using JSON Web Tokens (JWT) to ensure that only authorized users can access the data.
+
+In addition to the core functionality, the APIs include Swagger UI for easy testing and documentation of the API. This allows developers to easily explore the available endpoints and see example requests and responses.
+
+The APIs use MySQL as their database for storing events and user information. They are designed to be scalable and can handle a large number of events and users.
+
+Overall, the Event Scheduler APIs are a powerful tool for developers looking to build event scheduling and management functionality into their applications. Their secure design and easy-to-use interface make them suitable for use in a wide range of environments.
 
 # Features
 - User Registration & Login
