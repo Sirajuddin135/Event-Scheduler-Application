@@ -44,6 +44,9 @@
 # API documentation
 - API documentation is available via Swagger UI at http://localhost:8080/swagger-ui.html.
 
+# Event Scheduler Image
+![Event-Scheduler-Image](https://user-images.githubusercontent.com/101395494/211131458-fc29c311-952d-4f43-b5c6-e967d706bbe3.png)
+
 # ER-Diagram
 ![ER_Diagram](https://user-images.githubusercontent.com/101395494/210177816-c40d34a0-ebb9-488d-b904-35ccf4ad417c.jpg)
 
