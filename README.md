@@ -24,7 +24,7 @@
   - Authorization: <your_jwt>
 
 # Technologies:
-- Java
+- Java 17 or above
 - Spring Boot 3.0
 - Spring Data JPA
 - JSON Web Tokens (JWT)
@@ -42,7 +42,7 @@
 5. The app will be running at http://localhost:8080.
 
 # API documentation
-- API documentation is available via Swagger UI at http://localhost:8080/swagger-ui.html.
+- API documentation is available via Swagger UI at http://localhost:8080/swagger-ui/index.html
 
 # Event Scheduler Image
 <img width="188" alt="Event-Scheduler-Image" src="https://user-images.githubusercontent.com/101395494/211131507-fb25a63c-c620-4d2f-8446-c97aa6316ce9.png">
